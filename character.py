@@ -6,6 +6,7 @@ class Character:
     def __init__(self, ai_settings, screen, image_url):
         self.screen = screen
         self.ai_settings = ai_settings
+
         # get object's image
         self.image = pygame.image.load(image_url)
         self.rect = self.image.get_rect()
@@ -14,6 +15,9 @@ class Character:
         self.screen_rect = screen.get_rect()
         self.rect.top = self.screen_rect.top
         self.rect.left = self.screen_rect.left
+
+        # speed of object
+        self.speed = 1
 
         # moving commands flags
         self.moving_right = False
@@ -33,15 +37,15 @@ class Character:
         """Match speed for character's movement"""
         if self.moving_right or self.moving_left:
             if self.moving_down or self.moving_up:
-                return (self.ai_settings.ship_speed_factor * sqrt(2)) / 2
+                return (self.speed * sqrt(2)) / 2
             else:
-                return self.ai_settings.ship_speed_factor
+                return self.speed
 
         if self.moving_up or self.moving_down:
             if self.moving_right or self.moving_left:
-                return (self.ai_settings.ship_speed_factor * sqrt(2)) / 2
+                return (self.speed * sqrt(2)) / 2
             else:
-                return self.ai_settings.ship_speed_factor
+                return self.speed
 
     def confirm_move(self):
         """Check the movement flags"""

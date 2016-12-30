@@ -20,7 +20,13 @@ def run_game():
     ship = Ship(ai_settings, screen, 'images/ship.bmp')
 
     # new enemy
-    enemy = Alien(ai_settings, screen, 'images/alien.bmp')
+    new_enemy1 = Alien(ai_settings, screen, 'images/alien.bmp')
+    new_enemy2 = Alien(ai_settings, screen, 'images/alien.bmp')
+    new_enemy3 = Alien(ai_settings, screen, 'images/alien.bmp')
+    enemies = []
+    enemies.append(new_enemy1)
+    enemies.append(new_enemy2)
+    enemies.append(new_enemy3)
 
     # bullets group
     bullets = Group()
@@ -29,8 +35,11 @@ def run_game():
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
-        enemy.update()
-        enemy.random_move()
+
+        for enemy in enemies:
+            enemy.random_move()
+            enemy.update()
+
         bullets.update()
 
         # delete old bullets
@@ -38,6 +47,6 @@ def run_game():
             if bullet.rect.bottom <= 0:
                 bullets.remove(bullet)
 
-        gf.update_screen(ai_settings, screen, ship, enemy, bullets)
+        gf.update_screen(ai_settings, screen, ship, enemies, bullets)
 
 run_game()

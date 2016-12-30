@@ -11,3 +11,5 @@ class Ship(Character):
 
         self.init_character(ai_settings.screen_width / 2,
                             ai_settings.screen_height / 2)
+
+        self.speed = ai_settings.ship_speed_factor
