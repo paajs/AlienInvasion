@@ -1,9 +1,12 @@
 import pygame
 from math import sqrt
+from pygame.sprite import Sprite
 
 
-class Character:
+class Character(Sprite):
     def __init__(self, ai_settings, screen, image_url):
+        super().__init__()
+
         self.screen = screen
         self.ai_settings = ai_settings
 

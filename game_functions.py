@@ -34,6 +34,22 @@ def check_keyup_events(event, ship):
         ship.moving_down = False
 
 
+def update_bullets(aliens, bullets):
+    bullets.update()
+
+    # delete old bullets
+    for bullet in bullets.copy():
+        if bullet.rect.bottom <= 0:
+            bullets.remove(bullet)
+    collisions = pygame.sprite.groupcollide(aliens, bullets, True, True)
+
+
+def update_aliens(aliens):
+    for alien in aliens.sprites():
+        alien.random_move()
+        alien.update()
+
+
 def check_events(ai_settings, screen, ship, bullets):
     """Reaction for events generated using kb or mouse"""
 
@@ -46,14 +62,14 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, enemies, bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets):
     screen.fill(ai_settings.bg_color)
 
     for bullet in bullets.sprites():
         bullet.draw_bullet()
 
     ship.blitme()
-    for enemy in enemies:
-        enemy.blitme()
+    for alien in aliens:
+        alien.blitme()
 
     pygame.display.flip()

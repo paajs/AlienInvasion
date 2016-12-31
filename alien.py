@@ -23,7 +23,7 @@ class Alien(Character):
     def random_move(self):
         now = time.time()
 
-        if (now - self.time_from_creation) > 0.3:
+        if (now - self.time_from_creation) > 0.35:
             self.moving_down = False
             self.moving_up = False
             self.moving_right = False
