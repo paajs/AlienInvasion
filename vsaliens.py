@@ -1,5 +1,8 @@
+#!/usr/bin/python
+
 import pygame
 from pygame.sprite import Group
+import time
 
 from settings import Settings
 from ship import Ship
@@ -18,7 +21,7 @@ def run_game():
     pygame.display.set_caption("vsAliens")
 
     # new ship
-    ship = Ship(ai_settings, screen, 'images/ship.bmp')
+    ship = Ship(ai_settings, screen)
 
     # new alien
     aliens = Group()
@@ -27,18 +30,19 @@ def run_game():
     bullets = Group()
 
     # Mainloop
-    loopcounter = 0
+    timer = time.time()
     while True:
         gf.check_events(ai_settings, screen, ship, bullets)
         ship.update()
         gf.update_bullets(aliens, bullets)
-        gf.update_aliens(aliens)
+        gf.check_lives(ship)
+        gf.update_aliens(ship, aliens)
         gf.update_screen(ai_settings, screen, ship, aliens, bullets)
 
-        loopcounter += 1
-        while loopcounter == 350:
-            new_alien = Alien(ai_settings, screen, 'images/alien.bmp')
+        now = time.time()
+        if (now - timer) > 0.75:
+            new_alien = Alien(ai_settings, screen)
             aliens.add(new_alien)
-            loopcounter = 0
+            timer = time.time()
 
 run_game()

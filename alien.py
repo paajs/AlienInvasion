@@ -1,17 +1,19 @@
-import pygame
 import random
 import time
+
+import pygame
+
 from character import Character
 
 
 class Alien(Character):
-    def __init__(self, ai_settings, screen, image_url):
-        super().__init__(ai_settings, screen, image_url)
+    def __init__(self, ai_settings, screen):
+        super().__init__(ai_settings, screen)
 
         self.time_from_creation = time.time()
 
-        self.x = random.randint(0, self.screen_rect.width)
-        self.y = random.randint(0, self.screen_rect.height)
+        self.init_character(random.randint(0, self.screen_rect.width),
+                            random.randint(0, self.screen_rect.height / 2))
 
         self.want_right = True
         self.want_left = True
@@ -19,6 +21,7 @@ class Alien(Character):
         self.want_up = True
 
         self.speed = 0.25
+        self.image = pygame.image.load('images/alien.bmp')
 
     def random_move(self):
         now = time.time()

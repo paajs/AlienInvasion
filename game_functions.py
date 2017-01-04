@@ -1,6 +1,7 @@
 import sys
 import pygame
 
+import stats
 from bullet import Bullet
 
 
@@ -26,10 +27,13 @@ def check_keydown_events(event, ai_settings, screen, ship, bullets):
 def check_keyup_events(event, ship):
     if event.key == pygame.K_d:
         ship.moving_right = False
+
     elif event.key == pygame.K_a:
         ship.moving_left = False
+
     elif event.key == pygame.K_w:
         ship.moving_up = False
+
     elif event.key == pygame.K_s:
         ship.moving_down = False
 
@@ -41,13 +45,27 @@ def update_bullets(aliens, bullets):
     for bullet in bullets.copy():
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
+
     collisions = pygame.sprite.groupcollide(aliens, bullets, True, True)
 
+    if collisions:
+        stats.points += 5
 
-def update_aliens(aliens):
+
+def update_aliens(ship, aliens):
     for alien in aliens.sprites():
         alien.random_move()
         alien.update()
+
+    if pygame.sprite.spritecollideany(ship, aliens):
+        ship.center_ship()
+        ship.lives -= 1
+
+
+def check_lives(ship):
+    if ship.lives == 0:
+        print(stats.points)
+        sys.exit()
 
 
 def check_events(ai_settings, screen, ship, bullets):

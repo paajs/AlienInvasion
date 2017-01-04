@@ -1,17 +1,18 @@
 import pygame
 from math import sqrt
+import game_functions as gf
 from pygame.sprite import Sprite
 
 
 class Character(Sprite):
-    def __init__(self, ai_settings, screen, image_url):
+    def __init__(self, ai_settings, screen):
         super().__init__()
 
         self.screen = screen
         self.ai_settings = ai_settings
 
         # get object's image
-        self.image = pygame.image.load(image_url)
+        self.image = pygame.image.load('images/ship.bmp')
         self.rect = self.image.get_rect()
 
         # spawn object in top left corner by default
@@ -27,6 +28,10 @@ class Character(Sprite):
         self.moving_left = False
         self.moving_up = False
         self.moving_down = False
+
+        self.rotate_clock = False
+        self.rotate_ctrclock = False
+        self.dir = 0
 
         # get cords to operate with
         self.x = float(self.rect.centerx)
@@ -49,6 +54,16 @@ class Character(Sprite):
                 return (self.speed * sqrt(2)) / 2
             else:
                 return self.speed
+
+    def turn_left(self):
+        self.dir += 45
+        if self.dir > 360:
+            self.dir = 45
+
+    def turn_right(self):
+        self.dir -= 45
+        if self.dir < 0:
+            self.dir = 315
 
     def confirm_move(self):
         """Check the movement flags"""
