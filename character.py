@@ -1,6 +1,10 @@
+################################
+#   character.py
+#   classes: Character
+################################
+
 import pygame
 from math import sqrt
-import game_functions as gf
 from pygame.sprite import Sprite
 
 

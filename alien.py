@@ -1,3 +1,8 @@
+################################
+#   alien.py
+#   classes: Alien
+################################
+
 import random
 import time
 
@@ -67,6 +72,4 @@ class Alien(Character):
                 self.moving_left = True
                 self.want_left = bool(random.getrandbits(1))
 
-            # print("want:\t" + "l: " + str(self.want_left) + " r: " + str(self.want_right) + " u: " + str(self.want_up) + " d: " + str(self.want_down))
-            # print("do:\t"+ "l: " + str(self.moving_left) + " r: " + str(self.moving_right) + " u: " + str(self.moving_up) + " d: " + str(self.moving_down))
             self.time_from_creation = time.time()

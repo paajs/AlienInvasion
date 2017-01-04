@@ -1,3 +1,8 @@
+################################
+#   game_functions.py
+#   game functions
+################################
+
 import sys
 import pygame
 

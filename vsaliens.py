@@ -1,5 +1,10 @@
 #!/usr/bin/python
 
+####################################
+#   vsaliens.py
+#   Game init and mainloop function
+####################################
+
 import pygame
 from pygame.sprite import Group
 import time
@@ -45,4 +50,5 @@ def run_game():
             aliens.add(new_alien)
             timer = time.time()
 
-run_game()
+if __name__ == "__main__":
+    run_game()

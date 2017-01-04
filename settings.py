@@ -1,5 +1,11 @@
-class Settings():
-    """ Settings Class """
+################################
+#   settings.py
+#   classes: Settings
+################################
+
+
+class Settings:
+    """Settings Class"""
 
     def __init__(self):
         """Settings initialization"""

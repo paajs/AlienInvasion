@@ -3,6 +3,11 @@ import pygame
 from character import Character
 
 
+################################
+#   ship.py
+#   classes: Ship
+################################
+
 class Ship(Character):
     """ Class Ship """
 
