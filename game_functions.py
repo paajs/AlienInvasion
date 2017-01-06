@@ -8,6 +8,7 @@ import pygame
 
 import stats
 from bullet import Bullet
+from bonus import Bonus
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
@@ -55,6 +56,7 @@ def update_bullets(aliens, bullets):
 
     if collisions:
         stats.points += 5
+        stats.bonus_counter += 1
 
 
 def update_aliens(ship, aliens):
@@ -65,6 +67,20 @@ def update_aliens(ship, aliens):
     if pygame.sprite.spritecollideany(ship, aliens):
         ship.center_ship()
         ship.lives -= 1
+
+
+def update_bonuses(ship, aliens, bullets, bonuses):
+    for bonus in bonuses:
+        bonus.update()
+
+    for bonus in pygame.sprite.spritecollide(ship, bonuses, True):
+        if bonus.type == "super":
+            stats.b_height *= 1.05
+            stats.b_width *= 1.2
+        elif bonus.type == "clear":
+            aliens.empty()
+        elif bonus.type == "extra":
+            ship.lives += 1
 
 
 def check_lives(ship):
@@ -85,7 +101,7 @@ def check_events(ai_settings, screen, ship, bullets):
             check_keyup_events(event, ship)
 
 
-def update_screen(ai_settings, screen, ship, aliens, bullets):
+def update_screen(ai_settings, screen, ship, aliens, bullets, bonuses):
     screen.fill(ai_settings.bg_color)
 
     for bullet in bullets.sprites():
@@ -94,5 +110,8 @@ def update_screen(ai_settings, screen, ship, aliens, bullets):
     ship.blitme()
     for alien in aliens:
         alien.blitme()
+
+    for bonus in bonuses.sprites():
+        bonus.draw_bonus()
 
     pygame.display.flip()

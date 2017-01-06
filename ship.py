@@ -14,7 +14,7 @@ class Ship(Character):
     def __init__(self, ai_settings, screen):
         super().__init__(ai_settings, screen)
 
-        self.lives = 3
+        self.lives = ai_settings.lives
 
         self.speed = ai_settings.ship_speed_factor
         self.image = pygame.image.load('images/ship.bmp')

@@ -4,6 +4,7 @@
 ################################
 
 import pygame
+import stats
 from pygame.sprite import Sprite
 
 
@@ -15,7 +16,7 @@ class Bullet(Sprite):
         super(Bullet, self).__init__()
         self.screen = screen
 
-        self.rect = pygame.Rect(0, 0, ai_settings.bullet_width, ai_settings.bullet_height)
+        self.rect = pygame.Rect(0, 0, stats.b_width, stats.b_height)
         self.rect.centerx = ship.rect.centerx
         self.rect.top = ship.rect.top
 
