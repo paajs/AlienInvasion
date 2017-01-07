@@ -6,29 +6,45 @@
 ####################################
 
 import pygame
-from pygame.sprite import Group, GroupSingle
+from pygame.sprite import Group
 import time
 import random
 
 from settings import Settings
 from ship import Ship
-from alien import Alien
-from bonus import Bonus
-import stats
+from stats import Stats
+from text_utils import TextField, Button
+
 import game_functions as gf
 
 
 def run_game():
     # Game init
     pygame.init()
-
     ai_settings = Settings()
+
     screen = pygame.display.set_mode(
         (ai_settings.screen_width, ai_settings.screen_height))
 
     pygame.display.set_caption("vsAliens")
 
     random.seed = time.time()
+
+    stats = Stats(ai_settings)
+
+    # play button
+    play_button = Button(ai_settings, screen, (0, 255, 0),
+                            ai_settings.screen_width / 2, ai_settings.screen_height / 2,
+                            "Game")
+
+    # score and lives
+    score_field = TextField(ai_settings, screen,
+                            ai_settings.screen_width / 2, 15, str(stats.points))
+    score_field.text_color = (0, 0, 0)
+
+    lives_field = TextField(ai_settings, screen,
+                            0, 15, "")
+    lives_field.text_color = (10, 10, 250)
 
     # new ship
     ship = Ship(ai_settings, screen)
@@ -39,29 +55,26 @@ def run_game():
     # bullets group
     bullets = Group()
 
+    # bonuses group
     bonuses = Group()
 
     # Mainloop
-    timer = time.time()
     while True:
-        gf.check_events(ai_settings, screen, ship, bullets)
-        ship.update()
-        gf.update_bullets(aliens, bullets)
-        gf.check_lives(ship)
-        gf.update_aliens(ship, aliens)
-        gf.update_bonuses(ship, aliens, bullets, bonuses)
-        gf.update_screen(ai_settings, screen, ship, aliens, bullets, bonuses)
+        if stats.game_active:
+            gf.update_ship(ship)
+            gf.update_bullets(bullets)
+            gf.spawn_alien(ai_settings, screen, aliens, stats)
+            gf.update_aliens(aliens)
+            gf.spawn_bonus(ai_settings, screen, bonuses, stats)
+            gf.collisions(ship, bullets, aliens, bonuses, stats)
+            gf.update_bonuses(bonuses)
+            gf.update_score(score_field, stats)
+            gf.update_lives(lives_field, stats)
 
-        now = time.time()
-        if (now - timer) > 0.75:
-            new_alien = Alien(ai_settings, screen)
-            aliens.add(new_alien)
-            timer = time.time()
-
-        if stats.bonus_counter == ai_settings.bonus_frags:
-            new_bonus = Bonus(ai_settings, screen)
-            bonuses.add(new_bonus)
-            stats.bonus_counter = 0
-
+        gf.check_game_active(play_button, stats)
+        gf.check_events(ai_settings, screen, ship, bullets,
+                        aliens, bonuses, stats, play_button)
+        gf.update_screen(ai_settings, screen, ship, aliens, bullets,
+                         bonuses, stats, play_button, score_field, lives_field)
 if __name__ == "__main__":
     run_game()

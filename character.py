@@ -19,10 +19,7 @@ class Character(Sprite):
         self.image = pygame.image.load('images/ship.bmp')
         self.rect = self.image.get_rect()
 
-        # spawn object in top left corner by default
         self.screen_rect = screen.get_rect()
-        self.rect.top = self.screen_rect.top
-        self.rect.left = self.screen_rect.left
 
         # speed of object
         self.speed = 1

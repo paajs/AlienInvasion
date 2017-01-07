@@ -4,16 +4,15 @@
 ################################
 
 import pygame
-import stats
 from pygame.sprite import Sprite
 
 
 class Bullet(Sprite):
     """ Class Bullet - bullets fired by ship """
 
-    def __init__(self, ai_settings, screen, ship):
+    def __init__(self, ai_settings, screen, ship, stats):
         """Creating the bullet"""
-        super(Bullet, self).__init__()
+        super().__init__()
         self.screen = screen
 
         self.rect = pygame.Rect(0, 0, stats.b_width, stats.b_height)

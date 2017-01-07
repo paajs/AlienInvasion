@@ -16,8 +16,8 @@ class Bonus(Sprite):
         self.screen_rect = screen.get_rect()
         self.rect = pygame.Rect(0, 0, ai_settings.bonus_size, ai_settings.bonus_size)
 
-        self.x = random.randint(0, self.screen_rect.width)
-        self.y = random.randint(0, self.screen_rect.height / 2)
+        self.x = random.randint(24, self.screen_rect.width - 24)
+        self.y = random.randint(24, self.screen_rect.height / 2)
 
         self.color = ai_settings.bonus_color
         self.type = 0
