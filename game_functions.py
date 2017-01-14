@@ -10,6 +10,7 @@ import pygame
 from bullet import Bullet
 from alien import Alien
 from bonus import Bonus
+from text_utils import TextField
 
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets, stats):
@@ -110,33 +111,42 @@ def update_bonuses(bonuses):
         bonus.update()
 
 
-def update_score(score_field, stats):
-    score_field.prep_msg(str(stats.points))
+def update_score(score_field, ai_settings, screen, stats):
+    score_field.empty()
+    new_score_field = TextField(ai_settings, screen,
+                                ai_settings.screen_width / 2, 15, str(stats.points))
+    new_score_field.text_color = (0, 0, 0)
+    score_field.add(new_score_field)
 
 
-def update_lives(lives_field, stats):
-    lives_field.prep_msg("Lives: " + str(stats.lives))
+def update_lives(lives_field, ai_settings, screen, stats):
+    lives_field.empty()
+    new_lives_field = TextField(ai_settings, screen,
+                                0, 15, "L: " + str(stats.lives))
+    lives_field.add(new_lives_field)
 
 
-def collisions(ship, bullets, aliens, bonuses, stats):
+def collisions(ai_settings, screen, ship, bullets, aliens, bonuses, stats, score_field, lives_field):
     if pygame.sprite.spritecollideany(ship, aliens):
         ship.center_ship()
         stats.lives -= 1
+        update_lives(lives_field, ai_settings, screen, stats)
 
     hitByBullet = pygame.sprite.groupcollide(aliens, bullets, True, True)
 
     if hitByBullet:
         stats.points += 5
         stats.bonus_counter += 1
+        update_score(score_field, ai_settings, screen, stats)
 
     for bonus in pygame.sprite.spritecollide(ship, bonuses, True):
         if bonus.type == "super":
-            stats.b_height *= 1.05
-            stats.b_width *= 1.2
+            stats.bullet_speed_factor *= 1.2
         elif bonus.type == "clear":
             aliens.empty()
         elif bonus.type == "extra":
             stats.lives += 1
+            update_lives(lives_field, ai_settings, screen, stats)
 
 
 def check_game_active(play_button, stats):
@@ -160,9 +170,11 @@ def update_screen(ai_settings, screen, ship, aliens, bullets,
     for bonus in bonuses.sprites():
         bonus.draw_bonus()
 
-    score_field.draw_text_field()
+    for sc_f in score_field:
+        sc_f.draw_text_field()
 
-    lives_field.draw_text_field()
+    for lv_f in lives_field:
+        lv_f.draw_text_field()
 
     if not stats.game_active:
         play_button.draw_text_field()

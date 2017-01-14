@@ -6,7 +6,7 @@
 ####################################
 
 import pygame
-from pygame.sprite import Group
+from pygame.sprite import Group, GroupSingle
 import time
 import random
 
@@ -38,13 +38,10 @@ def run_game():
                             "Game")
 
     # score and lives
-    score_field = TextField(ai_settings, screen,
-                            ai_settings.screen_width / 2, 15, str(stats.points))
-    score_field.text_color = (0, 0, 0)
-
-    lives_field = TextField(ai_settings, screen,
-                            0, 15, "")
-    lives_field.text_color = (10, 10, 250)
+    score_field = GroupSingle()
+    gf.update_score(score_field, ai_settings, screen, stats)
+    lives_field = GroupSingle()
+    gf.update_lives(lives_field, ai_settings, screen, stats)
 
     # new ship
     ship = Ship(ai_settings, screen)
@@ -66,10 +63,8 @@ def run_game():
             gf.spawn_alien(ai_settings, screen, aliens, stats)
             gf.update_aliens(aliens)
             gf.spawn_bonus(ai_settings, screen, bonuses, stats)
-            gf.collisions(ship, bullets, aliens, bonuses, stats)
+            gf.collisions(ai_settings, screen, ship, bullets, aliens, bonuses, stats, score_field, lives_field)
             gf.update_bonuses(bonuses)
-            gf.update_score(score_field, stats)
-            gf.update_lives(lives_field, stats)
 
         gf.check_game_active(play_button, stats)
         gf.check_events(ai_settings, screen, ship, bullets,

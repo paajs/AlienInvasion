@@ -26,7 +26,7 @@ class Alien(Character):
         self.want_up = True
 
         self.speed = 0.25
-        self.image = pygame.image.load('images/alien.bmp')
+        self.image = pygame.image.load('images/alien.bmp').convert_alpha()
 
     def random_move(self):
         now = time.time()

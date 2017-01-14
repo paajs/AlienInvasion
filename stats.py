@@ -12,8 +12,7 @@ class Stats:
 
     def reset_stats(self, ai_settings):
         self.lives = 1
-        self.b_width = ai_settings.bullet_width
-        self.b_height = ai_settings.bullet_height
+        self.bullet_speed_factor = ai_settings.bullet_speed_factor
 
         self.game_active = False
         self.alien_timer = time.time()

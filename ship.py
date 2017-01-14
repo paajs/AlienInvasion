@@ -15,7 +15,7 @@ class Ship(Character):
         super().__init__(ai_settings, screen)
 
         self.speed = ai_settings.ship_speed_factor
-        self.image = pygame.image.load('images/ship.bmp').convert()
+        self.image = pygame.image.load('images/ship.bmp').convert_alpha()
 
         self.center_ship()
 
